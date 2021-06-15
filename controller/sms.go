@@ -1,10 +1,11 @@
 package controller
 
 import (
+	"errors"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"kada-account/model"
-	"kada-account/util"
+	token2 "kada-account/token"
 	"net/http"
 	"strings"
 )
@@ -23,9 +24,15 @@ func SmsAuth() func(c *gin.Context) {
 			c.Abort()
 			return
 		}
+		// 添加教研逻辑
+		if checkSmsCode(phoneNumber, smsCode) != nil {
+			c.JSON(http.StatusBadRequest, model.GetNetErrorWithCode(1000, "sms code error.", nil))
+			c.Abort()
+			return
+		}
 		user, exist := model.GetUserInfoByPhoneNumber(phoneNumber)
 		if exist {
-			token, e := util.GenerateToken(user)
+			token, e := token2.GenerateToken(user)
 			if e != nil {
 				c.JSON(http.StatusInternalServerError, model.GetNetErrorWithCode(http.StatusInternalServerError, "Token generate fail", e))
 				c.Abort()
@@ -39,7 +46,7 @@ func SmsAuth() func(c *gin.Context) {
 			user.UserId = uuid.NewString()
 			user.PhoneNumber = phoneNumber
 			_ = user.CreateUser()
-			token, e := util.GenerateToken(user)
+			token, e := token2.GenerateToken(user)
 			if e != nil {
 				c.JSON(http.StatusInternalServerError, model.GetNetErrorWithCode(http.StatusInternalServerError, "Token generate fail", e))
 				c.Abort()
@@ -49,5 +56,13 @@ func SmsAuth() func(c *gin.Context) {
 				Token: token,
 			})
 		}
+	}
+}
+
+func checkSmsCode(phoneNumber string, smsCode string) error {
+	if smsCode == "1234" {
+		return nil
+	} else {
+		return errors.New("sms code error")
 	}
 }

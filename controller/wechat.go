@@ -4,8 +4,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"io/ioutil"
+	"kada-account/json"
 	"kada-account/model"
-	"kada-account/util"
+	token2 "kada-account/token"
 	"net/http"
 	"strings"
 )
@@ -33,7 +34,7 @@ func WechatAuth() func(c *gin.Context) {
 			return
 		}
 		var raw map[string]interface{}
-		wxJsonError := util.JsonUnmarshal(body, &raw)
+		wxJsonError := json.Unmarshal(body, &raw)
 		if wxJsonError != nil {
 			c.JSON(http.StatusInternalServerError, model.GetNetError("Read wx body error.", readWxBodyError))
 			c.Abort()
@@ -45,12 +46,12 @@ func WechatAuth() func(c *gin.Context) {
 			return
 		} else {
 			wxRespModel := new(model.WxResponse)
-			_ = util.JsonUnmarshal(body, wxRespModel)
+			_ = json.Unmarshal(body, wxRespModel)
 			user, exist := model.GetUserInfoByOpenId(wxRespModel.OpenID)
 			if exist {
 				user.SessionKey = wxRespModel.SessionKey
 				_ = user.UpdateWxRespUserInfo()
-				token, e := util.GenerateToken(user)
+				token, e := token2.GenerateToken(user)
 				if e != nil {
 					c.JSON(http.StatusInternalServerError, model.GetNetErrorWithCode(http.StatusInternalServerError, "Token generate fail", e))
 					c.Abort()
@@ -66,7 +67,7 @@ func WechatAuth() func(c *gin.Context) {
 				user.UnionID = wxRespModel.UnionID
 				user.SessionKey = wxRespModel.SessionKey
 				_ = user.CreateUser()
-				token, e := util.GenerateToken(user)
+				token, e := token2.GenerateToken(user)
 				if e != nil {
 					c.JSON(http.StatusInternalServerError, model.GetNetErrorWithCode(http.StatusInternalServerError, "Token generate fail", e))
 					c.Abort()

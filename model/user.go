@@ -3,6 +3,7 @@ package model
 import (
 	"errors"
 	"gorm.io/gorm"
+	"kada-account/json"
 	"time"
 )
 
@@ -15,6 +16,7 @@ type User struct {
 	UpdatedAt   time.Time `json:"-"`
 }
 
+// GetUserInfoByOpenId 通过微信open id获取用户
 func GetUserInfoByOpenId(openID string) (*User, bool) {
 	db, openSqlError := GetDb()
 	if openSqlError != nil {
@@ -28,6 +30,7 @@ func GetUserInfoByOpenId(openID string) (*User, bool) {
 	return user, true
 }
 
+// GetUserInfoByPhoneNumber 通过微信手机号获取用户
 func GetUserInfoByPhoneNumber(phoneNumber string) (*User, bool) {
 	db, openSqlError := GetDb()
 	if openSqlError != nil {
@@ -41,6 +44,7 @@ func GetUserInfoByPhoneNumber(phoneNumber string) (*User, bool) {
 	return user, true
 }
 
+// GetUserInfoByUserId 通过user id获取用户
 func GetUserInfoByUserId(userId string) (*User, bool) {
 	db, openSqlError := GetDb()
 	if openSqlError != nil {
@@ -52,6 +56,25 @@ func GetUserInfoByUserId(userId string) (*User, bool) {
 		return nil, false
 	}
 	return user, true
+}
+
+func UpdateProfile(userId string, userInfo *UserInfo) error {
+	db, openSqlError := GetDb()
+	if openSqlError != nil {
+		return openSqlError
+	}
+	// 转换成map
+	data, marshalError := json.Marshal(userInfo)
+	if marshalError != nil {
+		return errors.New("user info verify fail")
+	}
+	updateMap := map[string]interface{}{}
+	unmarshalError := json.Unmarshal(data, &updateMap)
+	if unmarshalError != nil {
+		return errors.New("user info verify fail")
+	}
+	db.Model(&User{}).Where("user_id = ?", userId).Updates(updateMap)
+	return nil
 }
 
 func (user *User) UpdateWechatUser() error {
