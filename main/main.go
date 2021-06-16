@@ -9,7 +9,6 @@ import (
 )
 
 func main() {
-	gin.SetMode(gin.DebugMode)
 	if !instDb() {
 		println("inst db net.")
 		return
