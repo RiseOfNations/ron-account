@@ -2,8 +2,8 @@
 #  Original  #
 ##############
 
-#
-kada-account
+# build
+cmd/kada-account
 
 # directory structure
 bin/*
