@@ -2,19 +2,18 @@ package token
 
 import (
 	"github.com/dgrijalva/jwt-go"
-	"kada-account/model"
 )
 
 var secretKey = "Dx5jdNFidWjL62eRqtC7Q"
 
 // GenerateToken 没做刷新，需要补充
-func GenerateToken(user *model.User) (string, error) {
+func GenerateToken(userId string) (string, error) {
 	tokenClams := new(Claims)
 	tokenClams.StandardClaims = jwt.StandardClaims{
 		Issuer:    "kada-account",
 		IssuedAt:  jwt.TimeFunc().Unix(),
 	}
-	tokenClams.UserId = user.UserId
+	tokenClams.UserId = userId
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, tokenClams)
 	return token.SignedString([]byte(secretKey))
 }

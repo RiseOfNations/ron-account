@@ -4,5 +4,5 @@ import "github.com/dgrijalva/jwt-go"
 
 type Claims struct {
 	jwt.StandardClaims
-	UserId string `json:"user_id"`
+	UserId string `util:"user_id"`
 }

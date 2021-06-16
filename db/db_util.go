@@ -1,4 +1,4 @@
-package model
+package db
 
 import (
 	"github.com/gin-gonic/gin"
@@ -25,28 +25,4 @@ func GetDb() (*gorm.DB, error) {
 		"charset": "utf8mb4",
 	}
 	return gorm.Open(mysql.Open(config.FormatDSN()), &gorm.Config{})
-}
-
-func InstDb() bool {
-	db, errConnDb := GetDb()
-	if errConnDb != nil {
-		println(errConnDb)
-		return false
-	}
-	sqlDb, connErr := db.DB()
-	if connErr != nil {
-		println(connErr.Error())
-		return false
-	}
-	pingError := sqlDb.Ping()
-	if pingError != nil {
-		println(pingError.Error())
-		return false
-	}
-	err := db.AutoMigrate(&User{})
-	if err != nil {
-		print(err)
-		return false
-	}
-	return true
 }

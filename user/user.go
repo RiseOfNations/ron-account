@@ -1,24 +1,25 @@
-package model
+package user
 
 import (
 	"errors"
 	"gorm.io/gorm"
-	"kada-account/json"
+	"kada-account/db"
+	"kada-account/util"
 	"time"
 )
 
 type User struct {
 	UserInfo
 	WxResponse
-	UserId      string    `json:"kada_user_id" gorm:"primaryKey;type:varchar(36);not null"`
-	PhoneNumber string    `json:"-" gorm:"type:varchar(16)"`
-	CreatedAt   time.Time `json:"-"`
-	UpdatedAt   time.Time `json:"-"`
+	UserId      string    `util:"kada_user_id" gorm:"primaryKey;type:varchar(36);not null"`
+	PhoneNumber string    `util:"-" gorm:"type:varchar(16)"`
+	CreatedAt   time.Time `util:"-"`
+	UpdatedAt   time.Time `util:"-"`
 }
 
 // GetUserInfoByOpenId 通过微信open id获取用户
 func GetUserInfoByOpenId(openID string) (*User, bool) {
-	db, openSqlError := GetDb()
+	db, openSqlError := db.GetDb()
 	if openSqlError != nil {
 		return nil, false
 	}
@@ -32,7 +33,7 @@ func GetUserInfoByOpenId(openID string) (*User, bool) {
 
 // GetUserInfoByPhoneNumber 通过微信手机号获取用户
 func GetUserInfoByPhoneNumber(phoneNumber string) (*User, bool) {
-	db, openSqlError := GetDb()
+	db, openSqlError := db.GetDb()
 	if openSqlError != nil {
 		return nil, false
 	}
@@ -46,7 +47,7 @@ func GetUserInfoByPhoneNumber(phoneNumber string) (*User, bool) {
 
 // GetUserInfoByUserId 通过user id获取用户
 func GetUserInfoByUserId(userId string) (*User, bool) {
-	db, openSqlError := GetDb()
+	db, openSqlError := db.GetDb()
 	if openSqlError != nil {
 		return nil, false
 	}
@@ -59,17 +60,18 @@ func GetUserInfoByUserId(userId string) (*User, bool) {
 }
 
 func UpdateProfile(userId string, userInfo *UserInfo) error {
-	db, openSqlError := GetDb()
+	// 添加检查逻辑
+	db, openSqlError := db.GetDb()
 	if openSqlError != nil {
 		return openSqlError
 	}
 	// 转换成map
-	data, marshalError := json.Marshal(userInfo)
+	data, marshalError := util.Marshal(userInfo)
 	if marshalError != nil {
 		return errors.New("user info verify fail")
 	}
 	updateMap := map[string]interface{}{}
-	unmarshalError := json.Unmarshal(data, &updateMap)
+	unmarshalError := util.Unmarshal(data, &updateMap)
 	if unmarshalError != nil {
 		return errors.New("user info verify fail")
 	}
@@ -78,7 +80,7 @@ func UpdateProfile(userId string, userInfo *UserInfo) error {
 }
 
 func (user *User) UpdateWechatUser() error {
-	db, openSqlError := GetDb()
+	db, openSqlError := db.GetDb()
 	if openSqlError != nil {
 		return openSqlError
 	}
@@ -97,7 +99,7 @@ func (user *User) UpdateWechatUser() error {
 }
 
 func (user *User) UpdateWxRespUserInfo() error {
-	db, openSqlError := GetDb()
+	db, openSqlError := db.GetDb()
 	if openSqlError != nil {
 		return openSqlError
 	}
@@ -107,7 +109,7 @@ func (user *User) UpdateWxRespUserInfo() error {
 }
 
 func (user *User) CreateUser() error {
-	db, openSqlError := GetDb()
+	db, openSqlError := db.GetDb()
 	if openSqlError != nil {
 		return openSqlError
 	}
