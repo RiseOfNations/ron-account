@@ -11,7 +11,7 @@ import (
 type User struct {
 	UserInfo
 	WxResponse
-	UserId      string    `util:"kada_user_id" gorm:"primaryKey;type:varchar(36);not null"`
+	UserId      string    `util:"user_id" gorm:"primaryKey;type:varchar(36);not null"`
 	PhoneNumber string    `util:"-" gorm:"type:varchar(16)"`
 	CreatedAt   time.Time `util:"-"`
 	UpdatedAt   time.Time `util:"-"`

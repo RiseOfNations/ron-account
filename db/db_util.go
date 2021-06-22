@@ -10,14 +10,14 @@ import (
 
 func GetDb() (*gorm.DB, error) {
 	config := sqldriver.NewConfig()
-	config.User = "kada"
+	config.User = "ron"
 	config.Passwd = "zQaRxNcF9yH1NBgY"
 	if gin.Mode() == gin.DebugMode {
 		config.Addr = "127.0.0.1:3306"
 	} else {
 		config.Addr = "rm-hp3f2888fmegv2ktc.mysql.huhehaote.rds.aliyuncs.com"
 	}
-	config.DBName = "kada"
+	config.DBName = "ron"
 	config.ParseTime = true
 	config.Loc = time.UTC
 	config.Net = "tcp"
