@@ -15,7 +15,7 @@ func GetDb() (*gorm.DB, error) {
 	if gin.Mode() == gin.DebugMode {
 		config.Addr = "127.0.0.1:3306"
 	} else {
-		config.Addr = "rm-hp3f2888fmegv2ktc.mysql.huhehaote.rds.aliyuncs.com"
+		config.Addr = "rm-2zeyd1yxsq3e4mycb.mysql.rds.aliyuncs.com:3306"
 	}
 	config.DBName = "ron"
 	config.ParseTime = true
