@@ -2,10 +2,10 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"kada-account/db"
-	"kada-account/login"
-	"kada-account/token"
-	"kada-account/user"
+	"ron-account/db"
+	"ron-account/login"
+	"ron-account/token"
+	"ron-account/user"
 )
 
 func main() {

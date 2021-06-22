@@ -1,4 +1,4 @@
-module kada-account
+module ron-account
 
 go 1.16
 

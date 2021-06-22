@@ -10,8 +10,8 @@ var secretKey = "Dx5jdNFidWjL62eRqtC7Q"
 func GenerateToken(userId string) (string, error) {
 	tokenClams := new(Claims)
 	tokenClams.StandardClaims = jwt.StandardClaims{
-		Issuer:    "kada-account",
-		IssuedAt:  jwt.TimeFunc().Unix(),
+		Issuer:   "ron-account",
+		IssuedAt: jwt.TimeFunc().Unix(),
 	}
 	tokenClams.UserId = userId
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, tokenClams)

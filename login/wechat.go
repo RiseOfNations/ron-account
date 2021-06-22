@@ -4,10 +4,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"io/ioutil"
-	token2 "kada-account/token"
-	user2 "kada-account/user"
-	"kada-account/util"
 	"net/http"
+	token2 "ron-account/token"
+	user2 "ron-account/user"
+	"ron-account/util"
 	"strings"
 )
 

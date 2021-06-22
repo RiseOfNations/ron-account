@@ -3,8 +3,8 @@ package user
 import (
 	"errors"
 	"gorm.io/gorm"
-	"kada-account/db"
-	"kada-account/util"
+	"ron-account/db"
+	"ron-account/util"
 	"time"
 )
 

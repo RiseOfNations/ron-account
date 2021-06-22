@@ -3,7 +3,7 @@
 ##############
 
 # build
-cmd/kada-account
+cmd/ron-account
 
 # directory structure
 bin/*

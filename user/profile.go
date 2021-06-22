@@ -2,9 +2,9 @@ package user
 
 import (
 	"github.com/gin-gonic/gin"
-	"kada-account/token"
-	"kada-account/util"
 	"net/http"
+	"ron-account/token"
+	"ron-account/util"
 )
 
 func UpdateProfileController() func(c *gin.Context) {
