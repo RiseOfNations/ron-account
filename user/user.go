@@ -11,10 +11,10 @@ import (
 type User struct {
 	UserInfo
 	WxResponse
-	UserId      string    `util:"user_id" gorm:"primaryKey;type:varchar(36);not null"`
-	PhoneNumber string    `util:"-" gorm:"type:varchar(16)"`
-	CreatedAt   time.Time `util:"-"`
-	UpdatedAt   time.Time `util:"-"`
+	UserId      string    `json:"user_id" gorm:"primaryKey;type:varchar(36);not null"`
+	PhoneNumber string    `json:"-" gorm:"type:varchar(16)"`
+	CreatedAt   time.Time `json:"-"`
+	UpdatedAt   time.Time `json:"-"`
 }
 
 // GetUserInfoByOpenId 通过微信open id获取用户

@@ -1,9 +1,9 @@
 package util
 
 type Error struct {
-	HttpCode     int    `util:"-"`
-	ErrorCode    int    `util:"error_code"`
-	ErrorMessage string `util:"error_message"`
+	HttpCode     int    `json:"-"`
+	ErrorCode    int    `json:"error_code"`
+	ErrorMessage string `json:"error_message"`
 }
 
 func GetNetErrorWithCode(code int, message string, err error) *Error {
