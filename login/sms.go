@@ -20,7 +20,7 @@ func SmsAuthController() func(c *gin.Context) {
 			return
 		}
 		phoneNumber := c.Query("phone_number")
-		if strings.Compare(smsCode, "") == 0 {
+		if strings.Compare(phoneNumber, "") == 0 {
 			c.JSON(http.StatusBadRequest, util.GetNetError("Without phone number.", nil))
 			c.Abort()
 			return
@@ -57,6 +57,20 @@ func SmsAuthController() func(c *gin.Context) {
 				Token: token,
 			})
 		}
+	}
+}
+
+func SendSmsCodeController() func(c *gin.Context) {
+	return func(c *gin.Context) {
+		phoneNumber := c.Query("phone_number")
+		if strings.Compare(phoneNumber, "") == 0 {
+			c.JSON(http.StatusBadRequest, util.GetNetError("Without phone number.", nil))
+			c.Abort()
+			return
+		}
+		c.JSON(http.StatusCreated, &Ok{
+			Status: "ok",
+		})
 	}
 }
 

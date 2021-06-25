@@ -19,6 +19,10 @@ func main() {
 		authorRouter.GET("/wechat", login.WechatAuthController())
 		authorRouter.GET("/sms", login.SmsAuthController())
 	}
+	codeRouter := router.Group("/code")
+	{
+		codeRouter.GET("/sms", login.SendSmsCodeController())
+	}
 	userRouter := router.Group("/user")
 	{
 		userRouter.PUT("/profile", token.Middleware(), user.UpdateProfileController())
