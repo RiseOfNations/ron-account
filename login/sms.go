@@ -68,7 +68,7 @@ func SendSmsCodeController() func(c *gin.Context) {
 			c.Abort()
 			return
 		}
-		c.JSON(http.StatusCreated, &Ok{
+		c.JSON(http.StatusOK, &Ok{
 			Status: "ok",
 		})
 	}
