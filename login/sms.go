@@ -39,8 +39,10 @@ func SmsAuthController() func(c *gin.Context) {
 				c.Abort()
 				return
 			}
+			initialized := len(user.NickName) != 0 && len(user.AvatarUrl) != 0
 			c.JSON(http.StatusOK, &Response{
-				Token: token,
+				Token:       token,
+				Initialized: initialized,
 			})
 		} else {
 			user := new(user2.User)
@@ -54,7 +56,8 @@ func SmsAuthController() func(c *gin.Context) {
 				return
 			}
 			c.JSON(http.StatusCreated, &Response{
-				Token: token,
+				Token:       token,
+				Initialized: false,
 			})
 		}
 	}
