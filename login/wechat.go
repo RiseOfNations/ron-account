@@ -51,7 +51,7 @@ func WechatAuthController() func(c *gin.Context) {
 			if exist {
 				user.SessionKey = wxRespModel.SessionKey
 				_ = user.UpdateWxRespUserInfo()
-				token, e := token2.GenerateToken(user.UserId)
+				token, e := token2.GenerateToken(user.UserId, user.Nickname, user.AvatarUrl)
 				if e != nil {
 					c.JSON(http.StatusInternalServerError, util.GetNetErrorWithCode(http.StatusInternalServerError, "Token generate fail", e))
 					c.Abort()
@@ -67,7 +67,7 @@ func WechatAuthController() func(c *gin.Context) {
 				user.UnionID = wxRespModel.UnionID
 				user.SessionKey = wxRespModel.SessionKey
 				_ = user.CreateUser()
-				token, e := token2.GenerateToken(user.UserId)
+				token, e := token2.GenerateToken(user.UserId, user.Nickname, user.AvatarUrl)
 				if e != nil {
 					c.JSON(http.StatusInternalServerError, util.GetNetErrorWithCode(http.StatusInternalServerError, "Token generate fail", e))
 					c.Abort()

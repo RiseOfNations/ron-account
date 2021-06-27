@@ -7,13 +7,15 @@ import (
 var secretKey = "Dx5jdNFidWjL62eRqtC7Q"
 
 // GenerateToken 没做刷新，需要补充
-func GenerateToken(userId string) (string, error) {
+func GenerateToken(userId string, nickname string, avatarUrl string) (string, error) {
 	tokenClams := new(Claims)
 	tokenClams.StandardClaims = jwt.StandardClaims{
 		Issuer:   "ron-account",
 		IssuedAt: jwt.TimeFunc().Unix(),
 	}
 	tokenClams.UserId = userId
+	tokenClams.Nickname = nickname
+	tokenClams.AvatarUrl = avatarUrl
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, tokenClams)
 	return token.SignedString([]byte(secretKey))
 }

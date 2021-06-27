@@ -33,31 +33,28 @@ func SmsAuthController() func(c *gin.Context) {
 		}
 		user, exist := user2.GetUserInfoByPhoneNumber(phoneNumber)
 		if exist {
-			token, e := token2.GenerateToken(user.UserId)
+			token, e := token2.GenerateToken(user.UserId, user.Nickname, user.AvatarUrl)
 			if e != nil {
 				c.JSON(http.StatusInternalServerError, util.GetNetErrorWithCode(http.StatusInternalServerError, "Token generate fail", e))
 				c.Abort()
 				return
 			}
-			initialized := len(user.Nickname) != 0 && len(user.AvatarUrl) != 0
 			c.JSON(http.StatusOK, &Response{
-				Token:       token,
-				Initialized: initialized,
+				Token: token,
 			})
 		} else {
 			user := new(user2.User)
 			user.UserId = uuid.NewString()
 			user.PhoneNumber = phoneNumber
 			_ = user.CreateUser()
-			token, e := token2.GenerateToken(user.UserId)
+			token, e := token2.GenerateToken(user.UserId, user.Nickname, user.AvatarUrl)
 			if e != nil {
 				c.JSON(http.StatusInternalServerError, util.GetNetErrorWithCode(http.StatusInternalServerError, "Token generate fail", e))
 				c.Abort()
 				return
 			}
 			c.JSON(http.StatusCreated, &Response{
-				Token:       token,
-				Initialized: false,
+				Token: token,
 			})
 		}
 	}
