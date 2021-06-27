@@ -9,7 +9,7 @@ import (
 )
 
 type User struct {
-	UserInfo
+	Info
 	WxResponse
 	UserId      string    `json:"user_id" gorm:"primaryKey;type:varchar(36);not null"`
 	PhoneNumber string    `json:"-" gorm:"type:varchar(16)"`
@@ -59,7 +59,7 @@ func GetUserInfoByUserId(userId string) (*User, bool) {
 	return user, true
 }
 
-func UpdateProfile(userId string, userInfo *UserInfo) error {
+func UpdateProfile(userId string, userInfo *Info) error {
 	// 添加检查逻辑
 	db, openSqlError := db.GetDb()
 	if openSqlError != nil {
@@ -87,7 +87,7 @@ func (user *User) UpdateWechatUser() error {
 	err := db.Model(user).Updates(map[string]interface{}{
 		"open_id":    user.OpenID,
 		"union_id":   user.UnionID,
-		"nick_name":  user.NickName,
+		"nickname":   user.Nickname,
 		"avatar_url": user.AvatarUrl,
 		"gender":     user.Gender,
 		"city":       user.City,

@@ -9,7 +9,7 @@ import (
 
 func UpdateProfileController() func(c *gin.Context) {
 	return func(c *gin.Context) {
-		userInfo := new(UserInfo)
+		userInfo := new(Info)
 		e := c.Bind(userInfo)
 		if e != nil {
 			c.JSON(http.StatusBadRequest, util.GetNetError("Profile verify net", e))

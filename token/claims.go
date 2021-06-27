@@ -1,8 +1,11 @@
 package token
 
-import "github.com/dgrijalva/jwt-go"
+import (
+	"github.com/dgrijalva/jwt-go"
+	"ron-account/user"
+)
 
 type Claims struct {
 	jwt.StandardClaims
-	UserId string `json:"user_id"`
+	user.Info
 }

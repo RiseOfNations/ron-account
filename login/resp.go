@@ -1,8 +1,7 @@
 package login
 
 type Response struct {
-	Token       string `json:"token"`
-	Initialized bool   `json:"initialized"`
+	Token string `json:"token"`
 }
 
 type Ok struct {

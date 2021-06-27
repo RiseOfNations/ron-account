@@ -1,7 +1,7 @@
 package user
 
-type UserInfo struct {
-	NickName  string `json:"nick_name,omitempty" gorm:"type:varchar(20)"`
+type Info struct {
+	Nickname  string `json:"nickname,omitempty" gorm:"type:varchar(20)"`
 	AvatarUrl string `json:"avatar_url,omitempty" gorm:"type:varchar(255)"`
 	Gender    string `json:"gender,omitempty" gorm:"type:varchar(10)"`
 	City      string `json:"city,omitempty" gorm:"type:varchar(50)"`
