@@ -17,12 +17,12 @@ func Middleware() gin.HandlerFunc {
 		}
 		accessToken := authHeader[len(BearerSchema):]
 		if accessToken == "" {
-			c.JSON(http.StatusBadRequest, util.GetNetError("auth net", nil))
+			c.JSON(http.StatusBadRequest, util.GetNetError("auth error", nil))
 			c.Abort()
 			return
 		} else {
 			if VerifyToken(accessToken) == false {
-				c.JSON(http.StatusUnauthorized, util.GetNetError("token net", nil))
+				c.JSON(http.StatusUnauthorized, util.GetNetError("token error", nil))
 				c.Abort()
 				return
 			}
